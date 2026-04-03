@@ -27,8 +27,9 @@ public class AuthService {
             JsonObject userData = json.getAsJsonObject("user");
             user.setId(userData.get("id").getAsInt());
             user.setEmail(userData.get("email").getAsString());
-            if (userData.has("username")) {
-                user.setUsername(userData.get("username").getAsString());
+            // El backend usa "name" no "username"
+            if (userData.has("name")) {
+                user.setUsername(userData.get("name").getAsString());
             }
         }
 
@@ -36,11 +37,12 @@ public class AuthService {
         return user;
     }
 
-    public User register(String email, String password, String username) throws IOException {
+    public User register(String email, String password, String name) throws IOException {
         JsonObject body = new JsonObject();
         body.addProperty("email", email);
         body.addProperty("password", password);
-        body.addProperty("username", username);
+        // El backend usa "name" no "username"
+        body.addProperty("name", name);
 
         String response = apiClient.post(AppConfig.ENDPOINT_REGISTER, body);
         JsonObject json = JsonParser.parseString(response).getAsJsonObject();
@@ -52,8 +54,8 @@ public class AuthService {
             JsonObject userData = json.getAsJsonObject("user");
             user.setId(userData.get("id").getAsInt());
             user.setEmail(userData.get("email").getAsString());
-            if (userData.has("username")) {
-                user.setUsername(userData.get("username").getAsString());
+            if (userData.has("name")) {
+                user.setUsername(userData.get("name").getAsString());
             }
         }
 

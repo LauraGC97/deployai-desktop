@@ -16,6 +16,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -32,19 +33,18 @@ public class ChatController implements Initializable {
 
     private final ChatService chatService = new ChatService();
     private Integer currentConversationId = null;
+    private final List<Message> currentMessages = new ArrayList<>();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        // Usuario
         if (SessionManager.getInstance().getCurrentUser() != null) {
-            String username = SessionManager.getInstance().getCurrentUser().getUsername();
-            if (username != null) {
-                usernameLabel.setText(username);
-                avatarLabel.setText(username.substring(0, 1).toUpperCase());
+            String name = SessionManager.getInstance().getCurrentUser().getUsername();
+            if (name != null) {
+                usernameLabel.setText(name);
+                avatarLabel.setText(name.substring(0, 1).toUpperCase());
             }
         }
 
-        // Ctrl+Enter para enviar
         messageInput.setOnKeyPressed(event -> {
             switch (event.getCode()) {
                 case ENTER:
@@ -55,13 +55,11 @@ public class ChatController implements Initializable {
             }
         });
 
-        // Click en conversación
         conversationList.setOnMouseClicked(event -> {
             Conversation selected = conversationList.getSelectionModel().getSelectedItem();
             if (selected != null) loadConversation(selected);
         });
 
-        // Estilo de celdas del sidebar
         conversationList.setCellFactory(lv -> new ListCell<Conversation>() {
             @Override
             protected void updateItem(Conversation item, boolean empty) {
@@ -83,9 +81,8 @@ public class ChatController implements Initializable {
             }
         });
 
-        // Estado vacío
         showEmptyState();
-        loadConversations();
+        refreshConversationList();
     }
 
     @FXML
@@ -96,6 +93,19 @@ public class ChatController implements Initializable {
         messageInput.clear();
         sendButton.setDisable(true);
 
+        // Añadir mensaje del usuario al historial
+        Message userMsg = new Message("user", text);
+        currentMessages.add(userMsg);
+
+        // Crear conversación si es nueva
+        if (currentConversationId == null) {
+            Conversation conv = chatService.createConversation(text);
+            currentConversationId = conv.getId();
+            chatTitleLabel.setText(">_ " + conv.getTitle());
+            refreshConversationList();
+        }
+
+        // Mostrar burbuja usuario
         addMessageBubble(text, true);
 
         // Indicador typing
@@ -118,19 +128,23 @@ public class ChatController implements Initializable {
         messagesContainer.getChildren().add(typingWrapper);
         scrollToBottom();
 
+        // Copiar historial para el hilo
+        List<Message> messagesCopy = new ArrayList<>(currentMessages);
+        int convId = currentConversationId;
+
         new Thread(() -> {
             try {
-                com.google.gson.JsonObject fullResponse = chatService.sendMessageFull(text, currentConversationId);
-                String reply = fullResponse.has("reply") ? fullResponse.get("reply").getAsString() : "";
-                if (fullResponse.has("conversationId")) {
-                    currentConversationId = fullResponse.get("conversationId").getAsInt();
-                }
+                String reply = chatService.sendMessage(messagesCopy);
+
+                // Añadir respuesta al historial
+                Message aiMsg = new Message("assistant", reply);
+                currentMessages.add(aiMsg);
+                chatService.updateConversation(convId, currentMessages);
 
                 Platform.runLater(() -> {
                     messagesContainer.getChildren().remove(typingWrapper);
                     addMessageBubble(reply, false);
                     sendButton.setDisable(false);
-                    loadConversations();
                     scrollToBottom();
                 });
             } catch (Exception e) {
@@ -138,6 +152,7 @@ public class ChatController implements Initializable {
                     messagesContainer.getChildren().remove(typingWrapper);
                     addMessageBubble("Error al conectar con el servidor. Inténtalo de nuevo.", false);
                     sendButton.setDisable(false);
+                    currentMessages.remove(currentMessages.size() - 1);
                 });
             }
         }).start();
@@ -146,6 +161,7 @@ public class ChatController implements Initializable {
     @FXML
     private void newConversation() {
         currentConversationId = null;
+        currentMessages.clear();
         messagesContainer.getChildren().clear();
         chatTitleLabel.setText(">_ chat");
         conversationList.getSelectionModel().clearSelection();
@@ -162,35 +178,23 @@ public class ChatController implements Initializable {
         }
     }
 
-    private void loadConversations() {
-        new Thread(() -> {
-            try {
-                List<Conversation> conversations = chatService.getConversations();
-                Platform.runLater(() -> conversationList.getItems().setAll(conversations));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }).start();
+    private void refreshConversationList() {
+        List<Conversation> conversations = chatService.getConversations();
+        conversationList.getItems().setAll(conversations);
     }
 
     private void loadConversation(Conversation conversation) {
         currentConversationId = conversation.getId();
         chatTitleLabel.setText(">_ " + conversation.getTitle());
+        currentMessages.clear();
         messagesContainer.getChildren().clear();
 
-        new Thread(() -> {
-            try {
-                List<Message> messages = chatService.getMessages(conversation.getId());
-                Platform.runLater(() -> {
-                    for (Message m : messages) {
-                        addMessageBubble(m.getContent(), m.isUser());
-                    }
-                    scrollToBottom();
-                });
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }).start();
+        List<Message> messages = chatService.getMessages(conversation.getId());
+        currentMessages.addAll(messages);
+        for (Message m : messages) {
+            addMessageBubble(m.getContent(), m.isUser());
+        }
+        scrollToBottom();
     }
 
     private void showEmptyState() {
@@ -220,7 +224,6 @@ public class ChatController implements Initializable {
         HBox wrapper = new HBox();
         wrapper.setPadding(new Insets(0, 0, 0, 0));
 
-        // Avatar
         VBox avatar = new VBox();
         avatar.setAlignment(Pos.CENTER);
         avatar.setMinWidth(34);
@@ -261,7 +264,6 @@ public class ChatController implements Initializable {
         }
         avatar.getChildren().add(avatarText);
 
-        // Burbuja
         VBox bubble = new VBox();
         bubble.setMaxWidth(700);
         bubble.setPadding(new Insets(14, 18, 14, 18));
@@ -311,9 +313,9 @@ public class ChatController implements Initializable {
 
     private String getUserInitial() {
         if (SessionManager.getInstance().getCurrentUser() != null) {
-            String username = SessionManager.getInstance().getCurrentUser().getUsername();
-            if (username != null && !username.isEmpty()) {
-                return username.substring(0, 1).toUpperCase();
+            String name = SessionManager.getInstance().getCurrentUser().getUsername();
+            if (name != null && !name.isEmpty()) {
+                return name.substring(0, 1).toUpperCase();
             }
         }
         return "U";

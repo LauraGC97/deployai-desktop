@@ -13,60 +13,58 @@ public class ChatService {
 
     private final ApiClient apiClient = ApiClient.getInstance();
 
-    public String sendMessage(String userMessage, Integer conversationId) throws IOException {
-        JsonObject body = new JsonObject();
-        body.addProperty("message", userMessage);
-        if (conversationId != null) {
-            body.addProperty("conversationId", conversationId);
+    public String sendMessage(List<Message> messages) throws IOException {
+        JsonArray messagesArray = new JsonArray();
+        for (Message m : messages) {
+            JsonObject msg = new JsonObject();
+            msg.addProperty("role", m.getRole());
+            msg.addProperty("content", m.getContent());
+            messagesArray.add(msg);
         }
+
+        JsonObject body = new JsonObject();
+        body.add("messages", messagesArray);
 
         String response = apiClient.postAuth(AppConfig.ENDPOINT_CHAT, body);
         JsonObject json = JsonParser.parseString(response).getAsJsonObject();
-        return json.has("reply") ? json.get("reply").getAsString() : "";
+
+        return json.has("content") ? json.get("content").getAsString() : "";
     }
 
-    public JsonObject sendMessageFull(String userMessage, Integer conversationId) throws IOException {
-        JsonObject body = new JsonObject();
-        body.addProperty("message", userMessage);
-        if (conversationId != null) {
-            body.addProperty("conversationId", conversationId);
-        }
+    private final List<Conversation> localConversations = new ArrayList<>();
+    private int nextId = 1;
 
-        String response = apiClient.postAuth(AppConfig.ENDPOINT_CHAT, body);
-        return JsonParser.parseString(response).getAsJsonObject();
+    public List<Conversation> getConversations() {
+        return new ArrayList<>(localConversations);
     }
 
-    public List<Conversation> getConversations() throws IOException {
-        String response = apiClient.getAuth(AppConfig.ENDPOINT_HISTORY);
-        JsonArray array = JsonParser.parseString(response).getAsJsonArray();
-
-        List<Conversation> conversations = new ArrayList<>();
-        for (JsonElement el : array) {
-            JsonObject obj = el.getAsJsonObject();
-            Conversation c = new Conversation(
-                    obj.get("id").getAsInt(),
-                    obj.has("title") ? obj.get("title").getAsString() : "Sin título",
-                    obj.has("created_at") ? obj.get("created_at").getAsString() : ""
-            );
-            conversations.add(c);
-        }
-        return conversations;
+    public Conversation createConversation(String firstMessage) {
+        String title = firstMessage.length() > 40
+                ? firstMessage.substring(0, 40) + "..."
+                : firstMessage;
+        Conversation c = new Conversation(nextId++, title, "");
+        c.setMessages(new ArrayList<>());
+        localConversations.add(0, c);
+        return c;
     }
 
-    public List<Message> getMessages(int conversationId) throws IOException {
-        String response = apiClient.getAuth(AppConfig.ENDPOINT_HISTORY + "/" + conversationId + "/messages");
-        JsonArray array = JsonParser.parseString(response).getAsJsonArray();
-
-        List<Message> messages = new ArrayList<>();
-        for (JsonElement el : array) {
-            JsonObject obj = el.getAsJsonObject();
-            Message m = new Message(
-                    obj.get("role").getAsString(),
-                    obj.get("content").getAsString()
-            );
-            m.setId(obj.get("id").getAsInt());
-            messages.add(m);
+    public void updateConversation(int id, List<Message> messages) {
+        for (Conversation c : localConversations) {
+            if (c.getId() == id) {
+                c.setMessages(new ArrayList<>(messages));
+                break;
+            }
         }
-        return messages;
+    }
+
+    public List<Message> getMessages(int conversationId) {
+        for (Conversation c : localConversations) {
+            if (c.getId() == conversationId) {
+                return c.getMessages() != null
+                        ? new ArrayList<>(c.getMessages())
+                        : new ArrayList<>();
+            }
+        }
+        return new ArrayList<>();
     }
 }

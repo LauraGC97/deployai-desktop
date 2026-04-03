@@ -7,7 +7,6 @@ public class AppConfig {
     public static final String ENDPOINT_LOGIN    = "/auth/login";
     public static final String ENDPOINT_REGISTER = "/auth/register";
     public static final String ENDPOINT_CHAT     = "/chat";
-    public static final String ENDPOINT_HISTORY  = "/conversations";
 
     public static final String APP_NAME    = "Deploy AI";
     public static final String APP_VERSION = "1.0.0";
