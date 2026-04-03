@@ -1,0 +1,50 @@
+package com.deployai.util;
+
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+
+import java.io.IOException;
+
+public class SceneManager {
+
+    private static SceneManager instance;
+    private Stage primaryStage;
+
+    private SceneManager() {}
+
+    public static SceneManager getInstance() {
+        if (instance == null) {
+            instance = new SceneManager();
+        }
+        return instance;
+    }
+
+    public void init(Stage stage) {
+        this.primaryStage = stage;
+    }
+
+    public void showLogin() throws IOException {
+        loadScene("/fxml/LoginView.fxml");
+    }
+
+    public void showRegister() throws IOException {
+        loadScene("/fxml/RegisterView.fxml");
+    }
+
+    public void showChat() throws IOException {
+        loadScene("/fxml/ChatView.fxml");
+    }
+
+    private void loadScene(String fxmlPath) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
+        Parent root = loader.load();
+        Scene scene = new Scene(root);
+        primaryStage.setScene(scene);
+    }
+
+    public Stage getPrimaryStage() {
+        return primaryStage;
+    }
+}
