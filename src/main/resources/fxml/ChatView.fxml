@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.deployai.controller.ChatController"
+            style="-fx-background-color: #0d1117;">
+
+    <!-- SIDEBAR izquierdo -->
+    <left>
+        <VBox style="-fx-background-color: #161b22; -fx-min-width: 240; -fx-max-width: 240; -fx-padding: 16;"
+              spacing="12">
+
+            <!-- Logo -->
+            <HBox alignment="CENTER_LEFT" spacing="8">
+                <Label text="⬡" style="-fx-font-size: 24px; -fx-text-fill: #7c3aed;"/>
+                <Label text="Deploy AI" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: white;"/>
+            </HBox>
+
+            <!-- Botón nueva conversación -->
+            <Button text="+ Nueva conversación"
+                    maxWidth="Infinity"
+                    styleClass="button-accent"
+                    onAction="#newConversation"/>
+
+            <Separator style="-fx-background-color: #30363d;"/>
+
+            <Label text="Conversaciones" style="-fx-text-fill: #8b949e; -fx-font-size: 11px;"/>
+
+            <!-- Lista de conversaciones -->
+            <ListView fx:id="conversationList"
+                      VBox.vgrow="ALWAYS"
+                      style="-fx-background-color: transparent; -fx-border-color: transparent;"/>
+
+            <Separator style="-fx-background-color: #30363d;"/>
+
+            <!-- Usuario y logout -->
+            <HBox alignment="CENTER_LEFT" spacing="8">
+                <Label fx:id="usernameLabel"
+                       text="Usuario"
+                       style="-fx-text-fill: #8b949e; -fx-font-size: 12px;"
+                       HBox.hgrow="ALWAYS"/>
+                <Button text="Salir"
+                        styleClass="button-outlined"
+                        onAction="#handleLogout"
+                        style="-fx-font-size: 11px;"/>
+            </HBox>
+
+        </VBox>
+    </left>
+
+    <!-- ÁREA PRINCIPAL del chat -->
+    <center>
+        <VBox style="-fx-background-color: #0d1117; -fx-padding: 0;">
+
+            <!-- Header -->
+            <HBox style="-fx-background-color: #161b22; -fx-padding: 16; -fx-border-color: #30363d; -fx-border-width: 0 0 1 0;"
+                  alignment="CENTER_LEFT">
+                <Label fx:id="chatTitleLabel"
+                       text="Nueva conversación"
+                       style="-fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: white;"/>
+            </HBox>
+
+            <!-- Mensajes -->
+            <ScrollPane fx:id="scrollPane"
+                        VBox.vgrow="ALWAYS"
+                        fitToWidth="true"
+                        style="-fx-background-color: #0d1117; -fx-background: #0d1117; -fx-border-color: transparent;">
+                <VBox fx:id="messagesContainer"
+                      spacing="12"
+                      style="-fx-padding: 24;">
+                </VBox>
+            </ScrollPane>
+
+            <!-- Input área -->
+            <HBox style="-fx-background-color: #161b22; -fx-padding: 16; -fx-border-color: #30363d; -fx-border-width: 1 0 0 0;"
+                  spacing="12" alignment="CENTER">
+                <TextArea fx:id="messageInput"
+                          promptText="Escribe tu pregunta de programación..."
+                          HBox.hgrow="ALWAYS"
+                          prefRowCount="2"
+                          wrapText="true"
+                          style="-fx-background-color: #0d1117; -fx-text-fill: white; -fx-prompt-text-fill: #8b949e; -fx-background-radius: 8; -fx-padding: 10; -fx-border-color: #30363d; -fx-border-radius: 8;"/>
+                <Button fx:id="sendButton"
+                        text="Enviar"
+                        styleClass="button-accent"
+                        onAction="#sendMessage"
+                        style="-fx-min-width: 80; -fx-min-height: 60;"/>
+            </HBox>
+
+        </VBox>
+    </center>
+
+</BorderPane>
