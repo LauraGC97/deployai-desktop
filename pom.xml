@@ -17,6 +17,12 @@
         <javafx.version>21.0.2</javafx.version>
         <atlantafx.version>2.0.1</atlantafx.version>
     </properties>
+    <repositories>
+        <repository>
+        <id>jitpack.io</id>
+        <url>https://jitpack.io</url>
+        </repository>
+    </repositories>
 
     <dependencies>
         <dependency>
@@ -35,9 +41,9 @@
             <version>${javafx.version}</version>
         </dependency>
         <dependency>
-            <groupId>io.github.palexdev</groupId>
-            <artifactId>atlantafx-base</artifactId>
-            <version>${atlantafx.version}</version>
+            <groupId>com.github.mkpaz</groupId>
+            <artifactId>atlantafx</artifactId>
+            <version>2.0.1</version>
         </dependency>
         <dependency>
             <groupId>com.google.code.gson</groupId>
