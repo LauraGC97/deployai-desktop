@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.web.*?>
+
+<StackPane xmlns:fx="http://javafx.com/fxml"
+           fx:controller="com.deployai.controller.SplashController"
+           style="-fx-background-color: #080A10;"
+           prefWidth="1100" prefHeight="720">
+
+    <WebView fx:id="splashWebView"/>
+
+</StackPane>

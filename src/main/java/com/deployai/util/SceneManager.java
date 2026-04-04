@@ -26,6 +26,10 @@ public class SceneManager {
         this.primaryStage = stage;
     }
 
+    public void showSplash() throws IOException {
+        loadScene("/fxml/SplashView.fxml");
+    }
+
     public void showLogin() throws IOException {
         loadScene("/fxml/LoginView.fxml");
     }

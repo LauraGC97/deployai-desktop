@@ -4,8 +4,10 @@ com\deployai\controller\LoginController.class
 com\deployai\controller\RegisterController.class
 com\deployai\controller\ChatController$2.class
 com\deployai\service\ChatService.class
+com\deployai\controller\SplashController$JavaBridge.class
 com\deployai\model\User.class
 com\deployai\controller\ChatController.class
+com\deployai\controller\SplashController.class
 com\deployai\service\ApiClient.class
 com\deployai\util\SceneManager.class
 com\deployai\MainApp.class

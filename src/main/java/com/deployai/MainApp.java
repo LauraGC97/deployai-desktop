@@ -19,7 +19,7 @@ public class MainApp extends Application {
         primaryStage.setMinHeight(AppConfig.MIN_HEIGHT);
 
         SceneManager.getInstance().init(primaryStage);
-        SceneManager.getInstance().showLogin();
+        SceneManager.getInstance().showSplash();
 
         primaryStage.show();
     }
