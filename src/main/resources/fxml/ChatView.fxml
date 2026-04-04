@@ -27,12 +27,12 @@
             <Button text="+ Nueva conversación"
                     maxWidth="Infinity"
                     onAction="#newConversation"
-                    style="-fx-background-color: rgba(34,211,238,0.08); -fx-text-fill: #22D3EE; -fx-font-family: 'JetBrains Mono'; -fx-font-size: 12px; -fx-background-radius: 8; -fx-padding: 9 12 9 12; -fx-border-color: rgba(34,211,238,0.2); -fx-border-radius: 8; -fx-border-width: 1; -fx-cursor: hand;"/>
+                    styleClass="btn-new-chat"/>
 
             <Region minHeight="16"/>
 
             <Label text="CONVERSACIONES"
-                   style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 10px; -fx-text-fill: #4B5563; -fx-letter-spacing: 1px; -fx-padding: 0 0 6 0;"/>
+                   style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 10px; -fx-text-fill: #4B5563; -fx-padding: 0 0 6 0;"/>
 
             <!-- Lista conversaciones -->
             <ListView fx:id="conversationList"
@@ -78,7 +78,10 @@
             <ScrollPane fx:id="scrollPane"
                         VBox.vgrow="ALWAYS"
                         fitToWidth="true"
-                        style="-fx-background-color: #0B0D15; -fx-background: #0B0D15; -fx-border-color: transparent; -fx-padding: 0;">
+                        pannable="false"
+                        hbarPolicy="NEVER"
+                        vbarPolicy="ALWAYS"
+                        style="-fx-background-color: #0B0D15; -fx-background: #0B0D15; -fx-border-color: transparent;">
                 <VBox fx:id="messagesContainer"
                       spacing="24"
                       style="-fx-padding: 32 24 32 24; -fx-background-color: #0B0D15;"/>
@@ -88,15 +91,17 @@
             <HBox style="-fx-background-color: rgba(11,13,21,0.9); -fx-padding: 16 24 20 24; -fx-border-color: rgba(255,255,255,0.05); -fx-border-width: 1 0 0 0;"
                   spacing="10" alignment="BOTTOM_CENTER">
                 <TextArea fx:id="messageInput"
-                          promptText="Escribe tu pregunta de programación..."
+                          promptText="Escribe tu pregunta... (Enter para enviar, Shift+Enter para nueva línea)"
                           HBox.hgrow="ALWAYS"
-                          prefRowCount="2"
+                          prefRowCount="1"
+                          minHeight="46"
+                          maxHeight="160"
                           wrapText="true"
                           style="-fx-background-color: #10121C; -fx-text-fill: #F0F9FF; -fx-prompt-text-fill: #4B5563; -fx-background-radius: 10; -fx-padding: 13 16 13 16; -fx-border-color: rgba(255,255,255,0.08); -fx-border-radius: 10; -fx-border-width: 1; -fx-font-family: 'JetBrains Mono'; -fx-font-size: 13px;"/>
                 <Button fx:id="sendButton"
                         text="→"
                         onAction="#sendMessage"
-                        style="-fx-background-color: linear-gradient(to bottom right, #A855F7, #22D3EE); -fx-text-fill: #0B0D15; -fx-font-weight: bold; -fx-font-size: 18px; -fx-background-radius: 10; -fx-min-width: 44; -fx-min-height: 44; -fx-max-width: 44; -fx-max-height: 44; -fx-cursor: hand;"/>
+                        styleClass="btn-send"/>
             </HBox>
 
         </VBox>

@@ -12,4 +12,5 @@ com\deployai\MainApp.class
 com\deployai\service\AuthService.class
 com\deployai\config\AppConfig.class
 com\deployai\config\SessionManager.class
+com\deployai\util\MarkdownRenderer.class
 com\deployai\model\Conversation.class

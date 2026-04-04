@@ -4,16 +4,19 @@ import com.deployai.config.SessionManager;
 import com.deployai.model.Conversation;
 import com.deployai.model.Message;
 import com.deployai.service.ChatService;
+import com.deployai.util.MarkdownRenderer;
 import com.deployai.util.SceneManager;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -37,6 +40,7 @@ public class ChatController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        // Nombre de usuario
         if (SessionManager.getInstance().getCurrentUser() != null) {
             String name = SessionManager.getInstance().getCurrentUser().getUsername();
             if (name != null) {
@@ -45,21 +49,53 @@ public class ChatController implements Initializable {
             }
         }
 
+        // Estilo del botón enviar
+        sendButton.setText("➤");
+        sendButton.setAlignment(Pos.CENTER);
+        sendButton.setPadding(new Insets(0));
+        sendButton.setStyle(
+            "-fx-background-color: linear-gradient(to bottom right, #A855F7 0%, #22D3EE 100%);" +
+            "-fx-text-fill: #080A10;" +
+            "-fx-font-weight: bold;" +
+            "-fx-font-size: 16px;" +
+            "-fx-background-radius: 10;" +
+            "-fx-min-width: 44;" +
+            "-fx-min-height: 44;" +
+            "-fx-max-width: 44;" +
+            "-fx-max-height: 44;" +
+            "-fx-cursor: hand;" +
+            "-fx-border-width: 0;" +
+            "-fx-padding: 0;"
+        );
+
+        // Enter envía, Shift+Enter hace salto de línea
         messageInput.setOnKeyPressed(event -> {
             switch (event.getCode()) {
                 case ENTER:
-                    if (event.isControlDown()) sendMessage();
+                    if (!event.isShiftDown()) {
+                        event.consume();
+                        sendMessage();
+                    }
                     break;
                 default:
                     break;
             }
         });
 
+        // Auto-expandir el TextArea
+        messageInput.textProperty().addListener((obs, oldVal, newVal) -> {
+            int lines = newVal.split("\n", -1).length;
+            int rows = Math.min(Math.max(lines, 1), 6);
+            messageInput.setPrefRowCount(rows);
+        });
+
+        // Click en conversación
         conversationList.setOnMouseClicked(event -> {
             Conversation selected = conversationList.getSelectionModel().getSelectedItem();
             if (selected != null) loadConversation(selected);
         });
 
+        // Estilo celdas sidebar
         conversationList.setCellFactory(lv -> new ListCell<Conversation>() {
             @Override
             protected void updateItem(Conversation item, boolean empty) {
@@ -93,11 +129,9 @@ public class ChatController implements Initializable {
         messageInput.clear();
         sendButton.setDisable(true);
 
-        // Añadir mensaje del usuario al historial
         Message userMsg = new Message("user", text);
         currentMessages.add(userMsg);
 
-        // Crear conversación si es nueva
         if (currentConversationId == null) {
             Conversation conv = chatService.createConversation(text);
             currentConversationId = conv.getId();
@@ -105,10 +139,8 @@ public class ChatController implements Initializable {
             refreshConversationList();
         }
 
-        // Mostrar burbuja usuario
         addMessageBubble(text, true);
 
-        // Indicador typing
         HBox typingWrapper = new HBox();
         typingWrapper.setAlignment(Pos.CENTER_LEFT);
         typingWrapper.setPadding(new Insets(4, 24, 4, 24));
@@ -128,15 +160,12 @@ public class ChatController implements Initializable {
         messagesContainer.getChildren().add(typingWrapper);
         scrollToBottom();
 
-        // Copiar historial para el hilo
         List<Message> messagesCopy = new ArrayList<>(currentMessages);
         int convId = currentConversationId;
 
         new Thread(() -> {
             try {
                 String reply = chatService.sendMessage(messagesCopy);
-
-                // Añadir respuesta al historial
                 Message aiMsg = new Message("assistant", reply);
                 currentMessages.add(aiMsg);
                 chatService.updateConversation(convId, currentMessages);
@@ -206,14 +235,10 @@ public class ChatController implements Initializable {
         icon.setStyle("-fx-font-size: 48px; -fx-text-fill: #1a2030;");
 
         Label title = new Label("¿En qué puedo ayudarte?");
-        title.setStyle(
-            "-fx-font-size: 22px;" +
-            "-fx-font-weight: bold;" +
-            "-fx-text-fill: #F0F9FF;"
-        );
+        title.setStyle("-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #F0F9FF;");
 
         Label sub = new Label("Escribe tu pregunta de programación\ny Deploy AI te responderá al instante.");
-        sub.setStyle("-fx-font-size: 14px; -fx-text-fill: #8B9BB4; -fx-text-alignment: center;");
+        sub.setStyle("-fx-font-size: 14px; -fx-text-fill: #8B9BB4;");
         sub.setWrapText(true);
 
         empty.getChildren().addAll(icon, title, sub);
@@ -264,15 +289,10 @@ public class ChatController implements Initializable {
         }
         avatar.getChildren().add(avatarText);
 
-        VBox bubble = new VBox();
-        bubble.setMaxWidth(700);
-        bubble.setPadding(new Insets(14, 18, 14, 18));
-
-        Text text = new Text(content);
-        text.setWrappingWidth(640);
-        TextFlow flow = new TextFlow(text);
-
         if (isUser) {
+            VBox bubble = new VBox();
+            bubble.setMaxWidth(700);
+            bubble.setPadding(new Insets(14, 18, 14, 18));
             bubble.setStyle(
                 "-fx-background-color: rgba(34,211,238,0.07);" +
                 "-fx-background-radius: 12;" +
@@ -280,30 +300,44 @@ public class ChatController implements Initializable {
                 "-fx-border-radius: 12;" +
                 "-fx-border-width: 1;"
             );
-            text.setStyle(
-                "-fx-fill: #E0F9FF;" +
-                "-fx-font-family: 'JetBrains Mono';" +
-                "-fx-font-size: 13px;"
-            );
+            Text text = new Text(content);
+            text.setWrappingWidth(620);
+            text.setStyle("-fx-fill: #E0F9FF; -fx-font-family: 'JetBrains Mono'; -fx-font-size: 13px;");
+            bubble.getChildren().add(new TextFlow(text));
             wrapper.setAlignment(Pos.CENTER_RIGHT);
-            bubble.getChildren().add(flow);
             wrapper.setSpacing(14);
             wrapper.getChildren().addAll(bubble, avatar);
         } else {
+            VBox bubble = new VBox();
             bubble.setStyle(
                 "-fx-background-color: #10121C;" +
                 "-fx-background-radius: 12;" +
                 "-fx-border-color: rgba(255,255,255,0.06);" +
                 "-fx-border-radius: 12;" +
-                "-fx-border-width: 1;"
+                "-fx-border-width: 1;" +
+                "-fx-padding: 4;"
             );
-            text.setStyle(
-                "-fx-fill: #F0F9FF;" +
-                "-fx-font-family: 'JetBrains Mono';" +
-                "-fx-font-size: 13px;"
-            );
+
+            WebView webView = new WebView();
+            webView.setPrefWidth(680);
+            webView.setMaxWidth(680);
+            webView.setPrefHeight(50);
+            webView.setPageFill(javafx.scene.paint.Color.TRANSPARENT);
+
+            WebEngine engine = webView.getEngine();
+            engine.loadContent(MarkdownRenderer.toHtml(content));
+
+            engine.getLoadWorker().stateProperty().addListener((obs, oldState, newState) -> {
+                if (newState == javafx.concurrent.Worker.State.SUCCEEDED) {
+                    Object heightObj = engine.executeScript("document.body.scrollHeight");
+                    if (heightObj instanceof Integer) {
+                        webView.setPrefHeight(((Integer) heightObj).doubleValue() + 28);
+                    }
+                }
+            });
+
+            bubble.getChildren().add(webView);
             wrapper.setAlignment(Pos.CENTER_LEFT);
-            bubble.getChildren().add(flow);
             wrapper.setSpacing(14);
             wrapper.getChildren().addAll(avatar, bubble);
         }

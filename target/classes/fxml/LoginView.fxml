@@ -37,7 +37,7 @@
             <!-- Email -->
             <VBox spacing="6">
                 <Label text="EMAIL"
-                       style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 11px; -fx-text-fill: #8B9BB4; -fx-letter-spacing: 1px;"/>
+                       style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 11px; -fx-text-fill: #8B9BB4;"/>
                 <TextField fx:id="emailField"
                            promptText="tu@email.com"
                            style="-fx-background-color: #0D0F18; -fx-text-fill: #F0F0F0; -fx-prompt-text-fill: #4B5563; -fx-background-radius: 8; -fx-padding: 12 16 12 16; -fx-border-color: rgba(255,255,255,0.08); -fx-border-radius: 8; -fx-border-width: 1; -fx-font-family: 'JetBrains Mono'; -fx-font-size: 13px;"/>
@@ -46,7 +46,7 @@
             <!-- Password -->
             <VBox spacing="6">
                 <Label text="CONTRASEÑA"
-                       style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 11px; -fx-text-fill: #8B9BB4; -fx-letter-spacing: 1px;"/>
+                       style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 11px; -fx-text-fill: #8B9BB4;"/>
                 <PasswordField fx:id="passwordField"
                                promptText="••••••••"
                                style="-fx-background-color: #0D0F18; -fx-text-fill: #F0F0F0; -fx-prompt-text-fill: #4B5563; -fx-background-radius: 8; -fx-padding: 12 16 12 16; -fx-border-color: rgba(255,255,255,0.08); -fx-border-radius: 8; -fx-border-width: 1; -fx-font-family: 'JetBrains Mono'; -fx-font-size: 13px;"/>
@@ -62,7 +62,7 @@
                     text="Iniciar sesión →"
                     maxWidth="Infinity"
                     onAction="#handleLogin"
-                    style="-fx-background-color: linear-gradient(to right, #A855F7, #22D3EE); -fx-text-fill: #080A10; -fx-font-weight: bold; -fx-font-family: 'JetBrains Mono'; -fx-font-size: 14px; -fx-background-radius: 10; -fx-padding: 14; -fx-cursor: hand;"/>
+                    styleClass="btn-gradient"/>
 
             <!-- Cierre y registro -->
             <Label text="}"

@@ -37,7 +37,7 @@
             <!-- Username -->
             <VBox spacing="6">
                 <Label text="USUARIO"
-                       style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 11px; -fx-text-fill: #8B9BB4; -fx-letter-spacing: 1px;"/>
+                       style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 11px; -fx-text-fill: #8B9BB4;"/>
                 <TextField fx:id="usernameField"
                            promptText="tunombre"
                            style="-fx-background-color: #0D0F18; -fx-text-fill: #F0F0F0; -fx-prompt-text-fill: #4B5563; -fx-background-radius: 8; -fx-padding: 12 16 12 16; -fx-border-color: rgba(255,255,255,0.08); -fx-border-radius: 8; -fx-border-width: 1; -fx-font-family: 'JetBrains Mono'; -fx-font-size: 13px;"/>
@@ -46,7 +46,45 @@
             <!-- Email -->
             <VBox spacing="6">
                 <Label text="EMAIL"
-                       style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 11px; -fx-text-fill: #8B9BB4; -fx-letter-spacing: 1px;"/>
+                       style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 11px; -fx-text-fill: #8B9BB4;"/>
                 <TextField fx:id="emailField"
                            promptText="tu@email.com"
-                           style="-fx-background-color: #0D0F
+                           style="-fx-background-color: #0D0F18; -fx-text-fill: #F0F0F0; -fx-prompt-text-fill: #4B5563; -fx-background-radius: 8; -fx-padding: 12 16 12 16; -fx-border-color: rgba(255,255,255,0.08); -fx-border-radius: 8; -fx-border-width: 1; -fx-font-family: 'JetBrains Mono'; -fx-font-size: 13px;"/>
+            </VBox>
+
+            <!-- Password -->
+            <VBox spacing="6">
+                <Label text="CONTRASEÑA"
+                       style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 11px; -fx-text-fill: #8B9BB4;"/>
+                <PasswordField fx:id="passwordField"
+                               promptText="••••••••"
+                               style="-fx-background-color: #0D0F18; -fx-text-fill: #F0F0F0; -fx-prompt-text-fill: #4B5563; -fx-background-radius: 8; -fx-padding: 12 16 12 16; -fx-border-color: rgba(255,255,255,0.08); -fx-border-radius: 8; -fx-border-width: 1; -fx-font-family: 'JetBrains Mono'; -fx-font-size: 13px;"/>
+            </VBox>
+
+            <!-- Error -->
+            <Label fx:id="errorLabel" text=""
+                   style="-fx-background-color: rgba(239,68,68,0.1); -fx-background-radius: 8; -fx-padding: 10 14 10 14; -fx-font-family: 'JetBrains Mono'; -fx-font-size: 12px; -fx-text-fill: #F87171; -fx-border-color: rgba(239,68,68,0.3); -fx-border-radius: 8; -fx-border-width: 1;"
+                   wrapText="true" managed="false" visible="false"/>
+
+            <!-- Botón -->
+            <Button fx:id="registerButton"
+                    text="Crear cuenta →"
+                    maxWidth="Infinity"
+                    onAction="#handleRegister"
+                    styleClass="btn-gradient"/>
+
+            <!-- Cierre -->
+            <Label text="}"
+                   style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 22px; -fx-text-fill: #F0F9FF; -fx-opacity: 0.4;"/>
+
+            <HBox alignment="CENTER_LEFT" spacing="8">
+                <Label text="¿Ya tienes cuenta?"
+                       style="-fx-font-size: 13px; -fx-text-fill: #6B7280;"/>
+                <Hyperlink text="Inicia sesión"
+                           onAction="#goToLogin"
+                           style="-fx-text-fill: #00E5FF; -fx-font-family: 'JetBrains Mono'; -fx-font-size: 13px; -fx-border-color: transparent;"/>
+            </HBox>
+
+        </VBox>
+    </VBox>
+</StackPane>
