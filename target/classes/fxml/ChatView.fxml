@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.deployai.controller.ChatController"
+            style="-fx-background-color: #0B0D15;">
+
+    <!-- SIDEBAR -->
+    <left>
+        <VBox style="-fx-background-color: #10121C; -fx-min-width: 280; -fx-max-width: 280; -fx-padding: 20 16 20 16; -fx-border-color: rgba(34,211,238,0.08); -fx-border-width: 0 1 0 0;"
+              spacing="0">
+
+            <!-- Header logo -->
+            <HBox alignment="CENTER_LEFT" spacing="10"
+                  style="-fx-padding: 0 0 16 0; -fx-border-color: rgba(255,255,255,0.05); -fx-border-width: 0 0 1 0;">
+                <Label text="&#9633;" style="-fx-font-size: 24px; -fx-text-fill: #22D3EE;"/>
+                <Label text="Deploy AI"
+                       style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 17px; -fx-font-weight: bold; -fx-text-fill: #F0F9FF;"/>
+            </HBox>
+
+            <Region minHeight="16"/>
+
+            <!-- Nueva conversación -->
+            <Button text="+ Nueva conversaci&#243;n"
+                    maxWidth="Infinity"
+                    onAction="#newConversation"
+                    style="-fx-background-color: rgba(34,211,238,0.06); -fx-text-fill: #22D3EE; -fx-font-family: 'JetBrains Mono'; -fx-font-size: 15px; -fx-background-radius: 8; -fx-padding: 12 16 12 16; -fx-border-color: rgba(34,211,238,0.2); -fx-border-radius: 8; -fx-border-width: 1; -fx-cursor: hand;"/>
+
+            <Region minHeight="20"/>
+
+            <!-- Modos -->
+            <Label text="//MODO"
+                   style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 12px; -fx-text-fill: #22D3EE; -fx-padding: 0 0 6 0;"/>
+            <VBox spacing="4">
+                <Button fx:id="modeGenerate"
+                     text="⚡ Generar código"
+                     maxWidth="Infinity"
+                     onAction="#setModeGenerate"
+                     style="-fx-background-color: rgba(34,211,238,0.08); -fx-text-fill: #22D3EE; -fx-font-family: 'JetBrains Mono'; -fx-font-size: 15px; -fx-background-radius: 8; -fx-padding: 12 14 12 14; -fx-border-color: rgba(34,211,238,0.2); -fx-border-radius: 8; -fx-border-width: 1; -fx-cursor: hand; -fx-alignment: CENTER_LEFT;"/>
+               <Button fx:id="modeAnalyze"
+                     text="🔍 Analizar código"
+                     maxWidth="Infinity"
+                     onAction="#setModeAnalyze"
+                     style="-fx-background-color: transparent; -fx-text-fill: #8B9BB4; -fx-font-family: 'JetBrains Mono'; -fx-font-size: 15px; -fx-background-radius: 8; -fx-padding: 12 14 12 14; -fx-border-color: transparent; -fx-border-radius: 8; -fx-border-width: 1; -fx-cursor: hand; -fx-alignment: CENTER_LEFT;"/>
+               <Button fx:id="modeExplain"
+                     text="💡 Explicar concepto"
+                     maxWidth="Infinity"
+                     onAction="#setModeExplain"
+                     style="-fx-background-color: transparent; -fx-text-fill: #8B9BB4; -fx-font-family: 'JetBrains Mono'; -fx-font-size: 15px; -fx-background-radius: 8; -fx-padding: 12 14 12 14; -fx-border-color: transparent; -fx-border-radius: 8; -fx-border-width: 1; -fx-cursor: hand; -fx-alignment: CENTER_LEFT;"/>
+            </VBox>
+
+            <Region minHeight="20"/>
+
+            <Label text="//HISTORIAL"
+                   style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 12px; -fx-text-fill: #22D3EE; -fx-padding: 0 0 6 0;"/>
+
+            <!-- Lista conversaciones -->
+            <ListView fx:id="conversationList"
+                      VBox.vgrow="ALWAYS"
+                      style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-background-insets: 0; -fx-padding: 0;"/>
+
+            <!-- Footer usuario -->
+            <HBox alignment="CENTER_LEFT" spacing="10"
+                  style="-fx-padding: 12 0 0 0; -fx-border-color: rgba(255,255,255,0.05); -fx-border-width: 1 0 0 0;">
+                <VBox style="-fx-background-color: linear-gradient(to bottom right, #A855F7, #22D3EE); -fx-background-radius: 8; -fx-min-width: 38; -fx-min-height: 38; -fx-max-width: 38; -fx-max-height: 38;" alignment="CENTER">
+                    <Label fx:id="avatarLabel" text="U"
+                           style="-fx-font-family: 'JetBrains Mono'; -fx-font-weight: bold; -fx-font-size: 15px; -fx-text-fill: #080A10;"/>
+                </VBox>
+                <Label fx:id="usernameLabel" text="Usuario"
+                       style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 15px; -fx-text-fill: #F0F9FF;"
+                       HBox.hgrow="ALWAYS"/>
+                <Button text="Salir"
+                        onAction="#handleLogout"
+                        style="-fx-background-color: transparent; -fx-text-fill: #6B7280; -fx-font-family: 'JetBrains Mono'; -fx-font-size: 13px; -fx-background-radius: 6; -fx-padding: 6 12 6 12; -fx-border-color: rgba(255,255,255,0.08); -fx-border-radius: 6; -fx-border-width: 1; -fx-cursor: hand;"/>
+            </HBox>
+
+        </VBox>
+    </left>
+
+    <!-- ÁREA PRINCIPAL -->
+    <center>
+        <VBox style="-fx-background-color: #0B0D15;">
+
+            <!-- Header -->
+            <HBox style="-fx-background-color: rgba(11,13,21,0.8); -fx-padding: 20 28 20 28; -fx-border-color: rgba(255,255,255,0.05); -fx-border-width: 0 0 1 0;"
+                  alignment="CENTER_LEFT" spacing="14">
+                <Label fx:id="chatTitleLabel" text="&gt;_ chat"
+                       style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 15px; -fx-text-fill: #22D3EE;"
+                       HBox.hgrow="ALWAYS"/>
+                <Label fx:id="modeBadge" text="&#9889; Generar"
+                       style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 13px; -fx-text-fill: #22D3EE; -fx-background-color: rgba(34,211,238,0.08); -fx-background-radius: 99; -fx-padding: 5 14 5 14; -fx-border-color: rgba(34,211,238,0.2); -fx-border-radius: 99; -fx-border-width: 1;"/>
+                <HBox alignment="CENTER" spacing="7">
+                    <Region style="-fx-background-color: #10B981; -fx-background-radius: 99; -fx-min-width: 9; -fx-min-height: 9; -fx-max-width: 9; -fx-max-height: 9;"/>
+                    <Label text="online"
+                           style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 13px; -fx-text-fill: #8B9BB4;"/>
+                </HBox>
+            </HBox>
+
+            <!-- Mensajes -->
+            <ScrollPane fx:id="scrollPane"
+                        VBox.vgrow="ALWAYS"
+                        fitToWidth="true"
+                        pannable="false"
+                        hbarPolicy="NEVER"
+                        vbarPolicy="ALWAYS"
+                        style="-fx-background-color: #0B0D15; -fx-background: #0B0D15; -fx-border-color: transparent;">
+                <VBox fx:id="messagesContainer"
+                      spacing="32"
+                      style="-fx-padding: 36 40 36 40; -fx-background-color: #0B0D15;"/>
+            </ScrollPane>
+
+            <!-- Input -->
+            <HBox style="-fx-background-color: rgba(11,13,21,0.95); -fx-padding: 20 28 24 28; -fx-border-color: rgba(255,255,255,0.05); -fx-border-width: 1 0 0 0;"
+                  spacing="14" alignment="BOTTOM_CENTER">
+                <TextArea fx:id="messageInput"
+                          promptText="Describe el c&#243;digo que quieres generar..."
+                          HBox.hgrow="ALWAYS"
+                          prefRowCount="2"
+                          minHeight="56"
+                          maxHeight="200"
+                          wrapText="true"
+                          style="-fx-background-color: #10121C; -fx-text-fill: #F0F9FF; -fx-prompt-text-fill: #4B5563; -fx-background-radius: 12; -fx-padding: 16 18 16 18; -fx-border-color: rgba(255,255,255,0.08); -fx-border-radius: 12; -fx-border-width: 1; -fx-font-family: 'JetBrains Mono'; -fx-font-size: 15px;"/>
+                <Button fx:id="sendButton"
+                        text="&#10148;"
+                        onAction="#sendMessage"
+                        style="-fx-background-color: linear-gradient(to bottom right, #A855F7, #22D3EE); -fx-text-fill: #080A10; -fx-font-weight: bold; -fx-font-size: 20px; -fx-background-radius: 12; -fx-min-width: 56; -fx-min-height: 56; -fx-max-width: 56; -fx-max-height: 56; -fx-cursor: hand; -fx-border-width: 0; -fx-padding: 0;"/>
+            </HBox>
+
+        </VBox>
+    </center>
+
+</BorderPane>

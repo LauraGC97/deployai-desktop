@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.*?>
+
+<StackPane xmlns:fx="http://javafx.com/fxml"
+           fx:controller="com.deployai.controller.LoginController"
+           style="-fx-background-color: #080A10;">
+
+    <ScrollPane fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="NEVER"
+                style="-fx-background-color: transparent; -fx-background: transparent; -fx-border-color: transparent;">
+        <VBox alignment="CENTER" spacing="0" style="-fx-padding: 32 0 32 0;">
+
+            <!-- Botón volver -->
+            <HBox style="-fx-padding: 0 0 16 48;">
+                <Button text="&#8592; Volver"
+                        onAction="#goBack"
+                        style="-fx-background-color: transparent; -fx-text-fill: #6B7280; -fx-font-family: 'JetBrains Mono'; -fx-font-size: 13px; -fx-cursor: hand; -fx-border-color: transparent; -fx-padding: 6 12 6 0;"/>
+            </HBox>
+
+            <VBox alignment="CENTER" maxWidth="480" style="-fx-padding: 0 24 0 24;">
+
+                <!-- Logo Canvas nativo -->
+                <StackPane fx:id="logoContainer"
+                           prefWidth="140" prefHeight="140"
+                           maxWidth="140" maxHeight="140"/>
+
+                <Region minHeight="12"/>
+
+                <VBox alignment="CENTER" spacing="6" style="-fx-padding: 0 0 24 0;">
+                    <Label text="Deploy AI"
+                           style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 30px; -fx-font-weight: bold; -fx-text-fill: #F0F9FF;"/>
+                    <Label text="Tu asistente de programaci&#243;n"
+                           style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 14px; -fx-text-fill: #6B7280;"/>
+                </VBox>
+
+                <VBox spacing="20"
+                      style="-fx-background-color: #161922; -fx-background-radius: 16; -fx-padding: 40; -fx-border-color: rgba(34,211,238,0.12); -fx-border-radius: 16; -fx-border-width: 1;">
+
+                    <VBox spacing="6">
+                        <Label text="Hola de nuevo, developer!"
+                               style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #F0F9FF;"/>
+                        <Label text="Introduce tus credenciales para continuar"
+                               style="-fx-font-size: 15px; -fx-text-fill: #6B7280;"/>
+                    </VBox>
+
+                    <VBox spacing="8">
+                        <Label text="EMAIL" style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 12px; -fx-text-fill: #8B9BB4;"/>
+                        <TextField fx:id="emailField" promptText="tu@email.com"
+                                   style="-fx-background-color: #0D0F18; -fx-text-fill: #F0F0F0; -fx-prompt-text-fill: #4B5563; -fx-background-radius: 8; -fx-padding: 14 16 14 16; -fx-border-color: rgba(255,255,255,0.08); -fx-border-radius: 8; -fx-border-width: 1; -fx-font-family: 'JetBrains Mono'; -fx-font-size: 15px;"/>
+                    </VBox>
+
+                    <VBox spacing="8">
+                        <Label text="CONTRASE&#209;A" style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 12px; -fx-text-fill: #8B9BB4;"/>
+                        <PasswordField fx:id="passwordField" promptText="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;"
+                                       style="-fx-background-color: #0D0F18; -fx-text-fill: #F0F0F0; -fx-prompt-text-fill: #4B5563; -fx-background-radius: 8; -fx-padding: 14 16 14 16; -fx-border-color: rgba(255,255,255,0.08); -fx-border-radius: 8; -fx-border-width: 1; -fx-font-family: 'JetBrains Mono'; -fx-font-size: 15px;"/>
+                    </VBox>
+
+                    <Label fx:id="errorLabel" text=""
+                           style="-fx-background-color: rgba(239,68,68,0.1); -fx-background-radius: 8; -fx-padding: 10 14 10 14; -fx-font-family: 'JetBrains Mono'; -fx-font-size: 13px; -fx-text-fill: #F87171; -fx-border-color: rgba(239,68,68,0.3); -fx-border-radius: 8; -fx-border-width: 1;"
+                           wrapText="true" managed="false" visible="false"/>
+
+                    <Button fx:id="loginButton" text="Entrar &#8594;"
+                            maxWidth="Infinity" onAction="#handleLogin"
+                            styleClass="btn-gradient"/>
+
+                    <HBox alignment="CENTER_LEFT" spacing="8">
+                        <Label text="&#191;No tienes cuenta?" style="-fx-font-size: 14px; -fx-text-fill: #6B7280;"/>
+                        <Hyperlink text="Reg&#237;strate aqu&#237;" onAction="#goToRegister"
+                                   style="-fx-text-fill: #00E5FF; -fx-font-family: 'JetBrains Mono'; -fx-font-size: 14px; -fx-border-color: transparent;"/>
+                    </HBox>
+
+                </VBox>
+            </VBox>
+        </VBox>
+    </ScrollPane>
+</StackPane>

@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.web.*?>
+
+<StackPane xmlns:fx="http://javafx.com/fxml"
+           fx:controller="com.deployai.controller.SplashController"
+           style="-fx-background-color: #080A10;">
+
+    <!-- Fondo animado -->
+    <WebView fx:id="splashWebView"/>
+
+    <!-- Contenido centrado -->
+    <ScrollPane fitToWidth="true"
+                hbarPolicy="NEVER"
+                vbarPolicy="NEVER"
+                style="-fx-background-color: transparent; -fx-background: transparent; -fx-border-color: transparent;">
+        <VBox alignment="CENTER" spacing="24" style="-fx-padding: 40 0 40 0;">
+
+            <!-- Badge -->
+            <HBox alignment="CENTER">
+                <HBox alignment="CENTER" spacing="8"
+                      style="-fx-border-color: rgba(168,85,247,0.3); -fx-border-radius: 99; -fx-border-width: 1; -fx-background-radius: 99; -fx-padding: 6 16 6 16;">
+                    <Label text="&#9679;" style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 10px; -fx-text-fill: #10B981;"/>
+                    <Label text="v1.0.0 &#183; Asistente de programaci&#243;n" style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 15px; -fx-text-fill: #A855F7;"/>
+                </HBox>
+            </HBox>
+
+            <!-- Logo -->
+            <HBox alignment="CENTER">
+                <WebView fx:id="logoView" prefWidth="180" prefHeight="180" maxWidth="180" maxHeight="180"/>
+            </HBox>
+
+            <!-- Título letra por letra -->
+            <HBox alignment="CENTER" spacing="0">
+                <Label text="D" style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 72px; -fx-font-weight: bold; -fx-text-fill: #22D3EE;"/>
+                <Label text="e" style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 72px; -fx-font-weight: bold; -fx-text-fill: #A855F7;"/>
+                <Label text="p" style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 72px; -fx-font-weight: bold; -fx-text-fill: #F0F9FF;"/>
+                <Label text="l" style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 72px; -fx-font-weight: bold; -fx-text-fill: #FDE047;"/>
+                <Label text="o" style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 72px; -fx-font-weight: bold; -fx-text-fill: #22D3EE;"/>
+                <Label text="y" style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 72px; -fx-font-weight: bold; -fx-text-fill: #10B981;"/>
+                <Label text="_" style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 72px; -fx-font-weight: bold; -fx-text-fill: #22D3EE;"/>
+            </HBox>
+
+            <!-- Subtítulo con colores -->
+            <HBox alignment="CENTER">
+                <HBox alignment="CENTER" spacing="0" maxWidth="700">
+                    <Label text="La IA que " style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 17px; -fx-text-fill: #8B9BB4;"/>
+                    <Label text="entiende" style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 17px; -fx-text-fill: #22D3EE;"/>
+                    <Label text=" tu c&#243;digo, " style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 17px; -fx-text-fill: #8B9BB4;"/>
+                    <Label text="optimiza" style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 17px; -fx-text-fill: #A855F7;"/>
+                    <Label text=" tu infraestructura y " style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 17px; -fx-text-fill: #8B9BB4;"/>
+                    <Label text="despliega" style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 17px; -fx-text-fill: #10B981;"/>
+                    <Label text=" sin l&#237;mites." style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 17px; -fx-text-fill: #8B9BB4;"/>
+                </HBox>
+            </HBox>
+
+            <!-- Botón -->
+            <HBox alignment="CENTER">
+                <Button fx:id="startButton"
+                        text="&lt;/&gt; Abrir Deploy AI"
+                        onAction="#handleStart"
+                        styleClass="btn-gradient"/>
+            </HBox>
+
+            <!-- Tarjetas features -->
+            <HBox alignment="CENTER" spacing="20" style="-fx-padding: 8 40 0 40;">
+
+                <!-- Card 1: Generar -->
+                <VBox spacing="12" HBox.hgrow="ALWAYS" maxWidth="360"
+                      style="-fx-background-color: #10121C; -fx-background-radius: 12; -fx-border-color: rgba(34,211,238,0.15); -fx-border-radius: 12; -fx-border-width: 1; -fx-padding: 22;">
+                    <HBox spacing="12" alignment="CENTER_LEFT">
+                        <Label text="&#9889;"
+                               style="-fx-font-size: 20px; -fx-text-fill: #22D3EE; -fx-background-color: rgba(34,211,238,0.1); -fx-background-radius: 8; -fx-padding: 8 10 8 10; -fx-min-width: 42; -fx-min-height: 42; -fx-max-width: 42; -fx-max-height: 42; -fx-alignment: CENTER;"/>
+                        <VBox spacing="2">
+                            <Label text="deployFast()" style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #22D3EE;"/>
+                            <Label text="Genera c&#243;digo al instante con IA." style="-fx-font-size: 13px; -fx-text-fill: #6B7280;"/>
+                        </VBox>
+                    </HBox>
+                    <Separator style="-fx-background-color: rgba(255,255,255,0.05);"/>
+                    <VBox spacing="5" style="-fx-background-color: #070810; -fx-background-radius: 8; -fx-padding: 16;">
+                        <HBox spacing="10">
+                            <Label text="01" style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 15px; -fx-text-fill: #3D4F6A; -fx-min-width: 28;"/>
+                            <HBox><Label text="const " style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 15px; -fx-text-fill: #A855F7;"/><Label text="code" style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 15px; -fx-text-fill: #22D3EE;"/><Label text=" = AI" style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 15px; -fx-text-fill: #F0F9FF;"/></HBox>
+                        </HBox>
+                        <HBox spacing="10">
+                            <Label text="02" style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 15px; -fx-text-fill: #3D4F6A; -fx-min-width: 28;"/>
+                            <Label text="  .generate({" style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 15px; -fx-text-fill: #F0F9FF;"/>
+                        </HBox>
+                        <HBox spacing="10">
+                            <Label text="03" style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 15px; -fx-text-fill: #3D4F6A; -fx-min-width: 28;"/>
+                            <HBox><Label text="  lang: " style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 15px; -fx-text-fill: #22D3EE;"/><Label text="&apos;java&apos;" style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 15px; -fx-text-fill: #FDE047;"/><Label text="," style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 15px; -fx-text-fill: #F0F9FF;"/></HBox>
+                        </HBox>
+                        <HBox spacing="10">
+                            <Label text="04" style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 15px; -fx-text-fill: #3D4F6A; -fx-min-width: 28;"/>
+                            <HBox><Label text="  speed: " style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 15px; -fx-text-fill: #22D3EE;"/><Label text="&apos;max&apos;" style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 15px; -fx-text-fill: #FDE047;"/></HBox>
+                        </HBox>
+                        <HBox spacing="10">
+                            <Label text="05" style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 15px; -fx-text-fill: #3D4F6A; -fx-min-width: 28;"/>
+                            <Label text="});" style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 15px; -fx-text-fill: #F0F9FF;"/>
+                        </HBox>
+                        <HBox spacing="10">
+                            <Label text="06" style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 15px; -fx-text-fill: #3D4F6A; -fx-min-width: 28;"/>
+                            <HBox><Label text="// " style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 15px; -fx-text-fill: #4B5563;"/><Label text="code ready" style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 15px; -fx-text-fill: #10B981;"/></HBox>
+                        </HBox>
+                        <HBox spacing="10">
+                            <Label text="07" style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 15px; -fx-text-fill: #3D4F6A; -fx-min-width: 28;"/>
+                            <HBox><Label text="// " style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 15px; -fx-text-fill: #4B5563;"/><Label text="&#10003; AI ready!" style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 15px; -fx-text-fill: #22D3EE;"/></HBox>
+                        </HBox>
+                    </VBox>
+                </VBox>
+
+                <!-- Card 2: Analizar -->
+                <VBox spacing="12" HBox.hgrow="ALWAYS" maxWidth="360"
+                      style="-fx-background-color: #10121C; -fx-background-radius: 12; -fx-border-color: rgba(168,85,247,0.15); -fx-border-radius: 12; -fx-border-width: 1; -fx-padding: 22;">
+                    <HBox spacing="12" alignment="CENTER_LEFT">
+                        <Label text="&#10022;"
+                               style="-fx-font-size: 20px; -fx-text-fill: #A855F7; -fx-background-color: rgba(168,85,247,0.1); -fx-background-radius: 8; -fx-padding: 8 10 8 10; -fx-min-width: 42; -fx-min-height: 42; -fx-max-width: 42; -fx-max-height: 42; -fx-alignment: CENTER;"/>
+                        <VBox spacing="2">
+                            <Label text="if(intelligent)" style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #A855F7;"/>
+                            <Label text="Analiza y detecta bugs en tu c&#243;digo." style="-fx-font-size: 13px; -fx-text-fill: #6B7280;"/>
+                        </VBox>
+                    </HBox>
+                    <Separator style="-fx-background-color: rgba(255,255,255,0.05);"/>
+                    <VBox spacing="5" style="-fx-background-color: #070810; -fx-background-radius: 8; -fx-padding: 16;">
+                        <HBox spacing="10">
+                            <Label text="01" style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 15px; -fx-text-fill: #3D4F6A; -fx-min-width: 28;"/>
+                            <HBox><Label text="function " style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 15px; -fx-text-fill: #A855F7;"/><Label text="analyze" style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 15px; -fx-text-fill: #22D3EE;"/><Label text="() {" style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 15px; -fx-text-fill: #F0F9FF;"/></HBox>
+                        </HBox>
+                        <HBox spacing="10">
+                            <Label text="02" style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 15px; -fx-text-fill: #3D4F6A; -fx-min-width: 28;"/>
+                            <HBox><Label text="  return " style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 15px; -fx-text-fill: #A855F7;"/><Label text="AI" style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 15px; -fx-text-fill: #22D3EE;"/></HBox>
+                        </HBox>
+                        <HBox spacing="10">
+                            <Label text="03" style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 15px; -fx-text-fill: #3D4F6A; -fx-min-width: 28;"/>
+                            <HBox><Label text="    .bugs(" style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 15px; -fx-text-fill: #F0F9FF;"/><Label text="code" style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 15px; -fx-text-fill: #22D3EE;"/><Label text=")" style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 15px; -fx-text-fill: #F0F9FF;"/></HBox>
+                        </HBox>
+                        <HBox spacing="10">
+                            <Label text="04" style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 15px; -fx-text-fill: #3D4F6A; -fx-min-width: 28;"/>
+                            <HBox><Label text="    .fix(" style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 15px; -fx-text-fill: #F0F9FF;"/><Label text="true" style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 15px; -fx-text-fill: #10B981;"/><Label text=");" style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 15px; -fx-text-fill: #F0F9FF;"/></HBox>
+                        </HBox>
+                        <HBox spacing="10">
+                            <Label text="05" style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 15px; -fx-text-fill: #3D4F6A; -fx-min-width: 28;"/>
+                            <Label text="}" style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 15px; -fx-text-fill: #F0F9FF;"/>
+                        </HBox>
+                        <HBox spacing="10">
+                            <Label text="06" style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 15px; -fx-text-fill: #3D4F6A; -fx-min-width: 28;"/>
+                            <HBox><Label text="// " style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 15px; -fx-text-fill: #4B5563;"/><Label text="0 bugs!" style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 15px; -fx-text-fill: #10B981;"/></HBox>
+                        </HBox>
+                        <HBox spacing="10">
+                            <Label text="07" style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 15px; -fx-text-fill: #3D4F6A; -fx-min-width: 28;"/>
+                            <HBox><Label text="// " style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 15px; -fx-text-fill: #4B5563;"/><Label text="&#10003; optimized!" style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 15px; -fx-text-fill: #A855F7;"/></HBox>
+                        </HBox>
+                    </VBox>
+                </VBox>
+
+                <!-- Card 3: Historial -->
+                <VBox spacing="12" HBox.hgrow="ALWAYS" maxWidth="360"
+                      style="-fx-background-color: #10121C; -fx-background-radius: 12; -fx-border-color: rgba(253,224,71,0.15); -fx-border-radius: 12; -fx-border-width: 1; -fx-padding: 22;">
+                    <HBox spacing="12" alignment="CENTER_LEFT">
+                        <Label text="&#9830;"
+                               style="-fx-font-size: 20px; -fx-text-fill: #FDE047; -fx-background-color: rgba(253,224,71,0.1); -fx-background-radius: 8; -fx-padding: 8 10 8 10; -fx-min-width: 42; -fx-min-height: 42; -fx-max-width: 42; -fx-max-height: 42; -fx-alignment: CENTER;"/>
+                        <VBox spacing="2">
+                            <Label text="const history =" style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #FDE047;"/>
+                            <Label text="Historial persistente guardado local." style="-fx-font-size: 13px; -fx-text-fill: #6B7280;"/>
+                        </VBox>
+                    </HBox>
+                    <Separator style="-fx-background-color: rgba(255,255,255,0.05);"/>
+                    <VBox spacing="5" style="-fx-background-color: #070810; -fx-background-radius: 8; -fx-padding: 16;">
+                        <HBox spacing="10">
+                            <Label text="01" style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 15px; -fx-text-fill: #3D4F6A; -fx-min-width: 28;"/>
+                            <HBox><Label text="const " style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 15px; -fx-text-fill: #A855F7;"/><Label text="history" style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 15px; -fx-text-fill: #FDE047;"/><Label text=" = [" style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 15px; -fx-text-fill: #F0F9FF;"/></HBox>
+                        </HBox>
+                        <HBox spacing="10">
+                            <Label text="02" style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 15px; -fx-text-fill: #3D4F6A; -fx-min-width: 28;"/>
+                            <HBox><Label text="  { role: " style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 15px; -fx-text-fill: #F0F9FF;"/><Label text="&apos;user&apos;" style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 15px; -fx-text-fill: #FDE047;"/><Label text=" }," style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 15px; -fx-text-fill: #F0F9FF;"/></HBox>
+                        </HBox>
+                        <HBox spacing="10">
+                            <Label text="03" style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 15px; -fx-text-fill: #3D4F6A; -fx-min-width: 28;"/>
+                            <HBox><Label text="  { role: " style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 15px; -fx-text-fill: #F0F9FF;"/><Label text="&apos;ai&apos;" style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 15px; -fx-text-fill: #FDE047;"/><Label text=" }" style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 15px; -fx-text-fill: #F0F9FF;"/></HBox>
+                        </HBox>
+                        <HBox spacing="10">
+                            <Label text="04" style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 15px; -fx-text-fill: #3D4F6A; -fx-min-width: 28;"/>
+                            <Label text="]" style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 15px; -fx-text-fill: #F0F9FF;"/>
+                        </HBox>
+                        <HBox spacing="10">
+                            <Label text="05" style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 15px; -fx-text-fill: #3D4F6A; -fx-min-width: 28;"/>
+                            <HBox><Label text="localStorage" style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 15px; -fx-text-fill: #22D3EE;"/><Label text=".save(" style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 15px; -fx-text-fill: #F0F9FF;"/><Label text="history" style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 15px; -fx-text-fill: #FDE047;"/><Label text=");" style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 15px; -fx-text-fill: #F0F9FF;"/></HBox>
+                        </HBox>
+                        <HBox spacing="10">
+                            <Label text="06" style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 15px; -fx-text-fill: #3D4F6A; -fx-min-width: 28;"/>
+                            <HBox><Label text="// " style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 15px; -fx-text-fill: #4B5563;"/><Label text="saved &#10003;" style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 15px; -fx-text-fill: #10B981;"/></HBox>
+                        </HBox>
+                        <HBox spacing="10">
+                            <Label text="07" style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 15px; -fx-text-fill: #3D4F6A; -fx-min-width: 28;"/>
+                            <HBox><Label text="// " style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 15px; -fx-text-fill: #4B5563;"/><Label text="persists!" style="-fx-font-family: 'JetBrains Mono'; -fx-font-size: 15px; -fx-text-fill: #FDE047;"/></HBox>
+                        </HBox>
+                    </VBox>
+                </VBox>
+
+            </HBox>
+
+        </VBox>
+    </ScrollPane>
+
+</StackPane>
